@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Default capabilities for the Expense Tracker app",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "app:default"
+  ]
+}
