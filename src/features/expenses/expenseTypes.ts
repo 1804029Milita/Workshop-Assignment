@@ -25,6 +25,15 @@ export interface CreateExpenseInput {
   paymentMethod?: string;
 }
 
+export interface UpdateExpenseInput {
+  id: string;
+  amount: number;
+  date: string;
+  categoryId: string;
+  note?: string;
+  paymentMethod?: string;
+}
+
 export interface ExpenseFormValues {
   amount: string;
   date: string;
