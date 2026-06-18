@@ -48,6 +48,7 @@ export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string 
         <h2>Expenses</h2>
       </div>
       <table>
+        <caption className="visually-hidden">Expenses</caption>
         <thead>
           <tr>
             <th>Date</th>
