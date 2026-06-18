@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { listExpenses, createExpense, listCategories } from './expenseApi';
+import { listExpenses, createExpense, listCategories, deleteExpense } from './expenseApi';
 import type { Expense, Category, CreateExpenseInput } from './expenseTypes';
-import { validateExpenseInput } from '../../lib/validation/expense';
 
 export function useExpenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -61,5 +60,22 @@ export function useExpenses() {
     return false;
   }, []);
 
-  return { expenses, categories, loading, error, refresh, addExpense };
+  const removeExpense = useCallback(async (id: string): Promise<boolean> => {
+    try {
+      setError(null);
+      await deleteExpense(id);
+      if (isMounted.current) {
+        setExpenses((prev) => prev.filter((expense) => expense.id !== id));
+        return true;
+      }
+    } catch (err) {
+      if (isMounted.current) {
+        setError(err instanceof Error ? err.message : 'Failed to delete expense');
+      }
+      return false;
+    }
+    return false;
+  }, []);
+
+  return { expenses, categories, loading, error, refresh, addExpense, removeExpense };
 }

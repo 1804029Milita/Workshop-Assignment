@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { listCategories, createCategory, updateCategory, deleteCategory } from './categoryApi';
+import { listCategories, createCategory, updateCategory as updateCategoryApi, deleteCategory } from './categoryApi';
 import type { Category, CreateCategoryInput, UpdateCategoryInput } from './categoryTypes';
 import { validateCategoryInput } from '../../lib/validation/category';
 
@@ -65,7 +65,7 @@ export function useCategories() {
         return false;
       }
       setError(null);
-      const updatedCategory = await updateCategory(input);
+      const updatedCategory = await updateCategoryApi(input);
       if (isMounted.current) {
         setCategories((prev) =>
           prev.map((cat) => (cat.id === updatedCategory.id ? updatedCategory : cat))

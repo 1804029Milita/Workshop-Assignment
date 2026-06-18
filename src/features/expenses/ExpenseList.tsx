@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useExpenses } from './useExpenses';
 import type { Expense } from './expenseTypes';
 
 export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string }) {
-  const { expenses, loading, error, refresh } = useExpenses();
+  const { expenses, loading, error, refresh, removeExpense } = useExpenses();
+  const [deletingExpenseId, setDeletingExpenseId] = useState<string | null>(null);
 
   const formatAmount = (amount: number) => {
     return `${currencySymbol}${amount.toFixed(2)}`;
@@ -12,10 +14,19 @@ export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string 
     return new Date(dateStr).toLocaleDateString();
   };
 
+  const handleDelete = async (expense: Expense) => {
+    if (!window.confirm('Are you sure you want to delete this expense? This action cannot be undone.')) {
+      return;
+    }
+    setDeletingExpenseId(expense.id);
+    const success = await removeExpense(expense.id);
+    if (!success) {
+      setDeletingExpenseId(null);
+    }
+  };
+
   if (loading) {
     return <div className="loading">Loading expenses...</div>;
-  />;
-  >;
   }
 
   if (error) {
@@ -44,6 +55,7 @@ export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string 
             <th>Amount</th>
             <th>Payment</th>
             <th>Note</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -54,6 +66,15 @@ export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string 
               <td className="amount">{formatAmount(expense.amount)}</td>
               <td>{expense.paymentMethod || '-'}</td>
               <td>{expense.note || '-'}</td>
+              <td className="actions">
+                <button
+                  onClick={() => handleDelete(expense)}
+                  disabled={deletingExpenseId === expense.id}
+                  className="btn-delete"
+                >
+                  {deletingExpenseId === expense.id ? 'Deleting...' : 'Delete'}
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

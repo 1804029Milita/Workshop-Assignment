@@ -1,4 +1,4 @@
-import type { ExpenseFormValues } from './expenseTypes';
+import type { ExpenseFormValues } from '../../features/expenses/expenseTypes';
 
 export function validateExpenseInput(values: ExpenseFormValues): string[] {
   const errors: string[] = [];

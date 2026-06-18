@@ -27,3 +27,25 @@ input, select {
   font-family: inherit;
   font-size: 1rem;
 }
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-delete {
+  padding: 0.25rem 0.75rem;
+  background-color: #b00020;
+  color: #fff;
+  border: 1px solid #b00020;
+  border-radius: 4px;
+}
+
+.btn-delete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.deleting {
+  opacity: 0.6;
+}

@@ -1,3 +1,5 @@
+import type { CreateCategoryInput, UpdateCategoryInput } from '../../features/categories/categoryTypes';
+
 export function validateCategoryInput(values: CreateCategoryInput | UpdateCategoryInput): string[] {
   const errors: string[] = [];
 

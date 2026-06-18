@@ -1,7 +1,7 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { useExpenses } from './useExpenses';
 import { validateExpenseInput } from '../../lib/validation/expense';
-import type { ExpenseFormValues, Category } from './expenseTypes';
+import type { ExpenseFormValues } from './expenseTypes';
 
 export function ExpenseForm({ currencySymbol = '$' }: { currencySymbol?: string }) {
   const { categories, loading: categoriesLoading, addExpense } = useExpenses();
@@ -16,7 +16,7 @@ export function ExpenseForm({ currencySymbol = '$' }: { currencySymbol?: string 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
     if (errors.length > 0) setErrors([]);

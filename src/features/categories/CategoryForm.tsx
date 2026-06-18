@@ -1,8 +1,8 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { useCategories } from './useCategories';
 import { validateCategoryInput } from '../../lib/validation/category';
 import type { CreateCategoryInput, UpdateCategoryInput } from './categoryTypes';
-import { addCategory, updateCategory } from './categoryApi';
+import { createCategory, updateCategory } from './categoryApi';
 
 interface CategoryFormProps {
   onSuccess?: () => void;
@@ -20,7 +20,7 @@ export function CategoryForm({ onSuccess, initialData }: CategoryFormProps) {
 
   const { refresh } = useCategories();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors.length > 0) setErrors([]);
@@ -43,7 +43,7 @@ export function CategoryForm({ onSuccess, initialData }: CategoryFormProps) {
       if (isEditing) {
         await updateCategory(formData as UpdateCategoryInput);
       } else {
-        await addCategory(formData as CreateCategoryInput);
+        await createCategory(formData as CreateCategoryInput);
       }
       refresh();
       onSuccess?.();
