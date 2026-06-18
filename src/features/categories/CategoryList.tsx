@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useCategories } from './useCategories';
 import { CategoryForm } from './CategoryForm';
 import type { Category } from './categoryTypes';
+import { ErrorBanner } from '../../components/ErrorBanner';
 
 export function CategoryList() {
   const { categories, loading, error, refresh, removeCategory } = useCategories();
@@ -13,12 +14,7 @@ export function CategoryList() {
   }
 
   if (error) {
-    return (
-      <div className="error">
-        <p>{error}</p>
-        <button onClick={refresh}>Retry</button>
-      </div>
-    );
+    return <ErrorBanner message={error} onRetry={refresh} />;
   }
 
   return (

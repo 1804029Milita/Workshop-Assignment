@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useExpenses } from './useExpenses';
 import type { Expense } from './expenseTypes';
+import { ErrorBanner } from '../../components/ErrorBanner';
 
 export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string }) {
   const { expenses, loading, error, refresh, removeExpense } = useExpenses();
@@ -30,12 +31,7 @@ export function ExpenseList({ currencySymbol = '$' }: { currencySymbol?: string 
   }
 
   if (error) {
-    return (
-      <div className="error">
-        <p>{error}</p>
-        <button onClick={refresh}>Retry</button>
-      </div>
-    );
+    return <ErrorBanner message={error} onRetry={refresh} />;
   }
 
   if (expenses.length === 0) {
